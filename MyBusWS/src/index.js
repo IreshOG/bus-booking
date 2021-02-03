@@ -12,7 +12,7 @@ app.use(myErrorLogger);
 
 
 
-app.post('/setupDb', (req, res, next) => {
+app.get('/setupDb', (req, res, next) => {
     create.setupDb().then((data) => {
         res.send(data);
     }).catch((error) => {
