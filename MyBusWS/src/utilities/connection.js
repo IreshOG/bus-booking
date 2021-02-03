@@ -5,13 +5,13 @@ Mongoose.set('useCreateIndex',true);
 const url = "mongodb://localhost:27017/BusBooking_DB";
 
 const passengerSchema = Schema({
-    passengerId: String,
+    passengerId: Number,
     passengerName: String,
     walletBalance: Number
 },{ collection: "Passenger" });
 
 const busBookingSchema = Schema ({
-    passengerId: { type: String, required: true },
+    passengerId: { type: Number, required: true },
     passengerName: { type: String, required: true },
     bookingId: { type: Number, unique: true },
     numberOfTickets: { type: Number, min: [1, "Minimum number of Tickets should be 1"], max: [5, "Maximum number of tickets booked should be 5"] },
