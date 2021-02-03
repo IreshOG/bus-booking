@@ -26,12 +26,14 @@ const busDb = [{
         status:"Running",
         bookings: [{
             passengerId: 1001,
+            passengerName:"Joshua",
             bookingId: 3001,
             numberOfTickets: 4,
             bookingCost: 2000
         },
         {
             passengerId: 2001,
+            passengerName:"Lopen",
             bookingId: 3004,
             numberOfTickets: 1,
             bookingCost: 500
@@ -46,12 +48,14 @@ const busDb = [{
         status:"Running",
         bookings: [{
                 passengerId: 1001,
+                passengerName:"Reno",
                 bookingId: 3002,
                 numberOfTickets: 2,
                 bookingCost: 1600
             },
             {
                 passengerId: 1035,
+                passengerName:"Polard",
                 bookingId: 3003,
                 numberOfTickets: 4,
                 bookingCost: 3200
@@ -66,13 +70,15 @@ const busDb = [{
         status:"Cancelled",
         bookings: [{
                 passengerId: 2001,
-                bookingId: 3004,
+                passengerName:"McCullum",
+                bookingId: 3010,
                 numberOfTickets: 1,
                 bookingCost: 650
             },
             {
                 passengerId: 1035,
-                bookingId: 3005,
+                passengerName:"Stewart",
+                bookingId: 3006,
                 numberOfTickets: 3,
                 bookingCost: 1950
             }
