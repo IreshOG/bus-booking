@@ -40,9 +40,9 @@ let collection = {};
 collection.getBusCollection = async()=>{
     try{
         let dbConnection = await mongoose.connect(url,{useNewUrlParser:true});
-        let m = await dbConnection.model('Bus',BusSchema);
-        return m;
-    }catch(err){
+        let model = await dbConnection.model('Bus',BusSchema);
+        return model;
+    }catch(error){
         let err = new Error('Cannot connect to DB');
         err.status = 500;
         throw err;
