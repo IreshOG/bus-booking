@@ -4,12 +4,14 @@ Mongoose.Promise = global.Promise;
 Mongoose.set('useCreateIndex',true);
 const url = "mongodb://localhost:27017/BusBooking_DB";
 
+//Schema for passenger
 const passengerSchema = Schema({
     passengerId: Number,
     passengerName: String,
     walletBalance: Number
 },{ collection: "Passenger" });
 
+//Schema for Bus booking
 const busBookingSchema = Schema ({
     passengerId: { type: Number, required: true },
     passengerName: { type: String, required: true },
