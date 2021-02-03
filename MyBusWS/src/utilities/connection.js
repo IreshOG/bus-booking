@@ -19,7 +19,33 @@ const busBookingSchema = Schema ({
     bookingCost: { type: Number, min: [0, "Booking cost should not be negative"] }
 });
 
+//schema for bus
+const BusSchema = Schema({
+    busId:Number,
+    busName:String,
+    price:Number,
+    seatsAvailable:Number,
+    status:{type:String,enum:['Running', 'Cancelled']},
+    bookings:{
+        type:[busBookingSchema],default:[]
+    }
+},{collection:'Bus'})
+
+
 let collection = {};
+
+
+collection.getBusCollection = async()=>{
+    try{
+        let dbConnection = await mongoose.connect(url,{useNewUrlParser:true});
+        let m = await dbConnection.model('Bus',BusSchema);
+        return m;
+    }catch(err){
+        let err = new Error('Cannot connect to DB');
+        err.status = 500;
+        throw err;
+    }
+}
 
 collection.getPassengerCollection = async()=>{
     try{
