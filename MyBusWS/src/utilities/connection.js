@@ -23,7 +23,7 @@ const busBookingSchema = Schema ({
 
 //schema for bus
 const BusSchema = Schema({
-    busId:Number,
+    busId:String,
     busName:String,
     price:Number,
     seatsAvailable:Number,
@@ -39,7 +39,7 @@ let collection = {};
 
 collection.getBusCollection = async()=>{
     try{
-        let dbConnection = await mongoose.connect(url,{useNewUrlParser:true});
+        let dbConnection = await Mongoose.connect(url,{useNewUrlParser:true});
         let model = await dbConnection.model('Bus',BusSchema);
         return model;
     }catch(error){

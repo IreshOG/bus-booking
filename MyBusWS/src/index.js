@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const create = require("./model/dbsetup");
 
-app.get('/setupDb', (req, res, next) => {
+app.post('/setupDb', (req, res, next) => {
     create.setupDb().then((data) => {
         res.send(data);
     }).catch((error) => {
