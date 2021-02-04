@@ -41,6 +41,22 @@ carBookingDb.checkAvailability = async (carId) => {
     }
 }
 
+//To book the car
+carBookingDb.bookCar = async (carBooking) => {
+    let model = await dbModel.getBookingCollection();
+    let bookId = await carBooking.generateId();
+    carBooking.bookingId = bookId;
+    let data = await model.updateOne({ carId: carBooking.carId }, { $push: { carBooking}});
+    if (data.nModified){
+            return carBooking.bookingId;
+            }
+    else {
+        let error = new Error("booking failed");
+        error.status = 400;
+        throw error;
+    }
+}
+
 //get booking by id
 carBookingDb.getBookingById = async(bookingid)=>{
     let book = await dbModel.getBookingCollection();

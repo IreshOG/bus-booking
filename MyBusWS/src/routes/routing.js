@@ -16,6 +16,17 @@ routing.get("/getAllBookings",async(req,res,next)=>{
     }
 })
 
+// Inserting car booking
+routing.post("/bookCar", async (req,res,next)=>{
+    const carBooking = new CarBooking(req.body);
+    try{
+        let bookingId = await carBookingService.bookCar(carBooking);
+        res.json({ "message": "Car booking is successful with booking Id " + bookingId });
+    }
+    catch (error) {
+        next(error);
+    }
+})
 
 //delete booking
 routing.put("/deleteBooking/:bookingId",async(req,res,next)=>{
