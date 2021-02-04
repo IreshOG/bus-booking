@@ -36,3 +36,6 @@ Thu Feb 04 2021 13:34:35 GMT+0530 (India Standard Time)GET/setupDb
 Thu Feb 04 2021 13:34:43 GMT+0530 (India Standard Time)GET/getAllBookings
 Thu Feb 04 2021 14:44:49 GMT+0530 (India Standard Time)GET/booking
 Thu Feb 04 2021 14:46:00 GMT+0530 (India Standard Time)GET/booking
+Thu Feb 04 2021 15:24:22 GMT+0530 (India Standard Time)POST/setupDb
+Thu Feb 04 2021 15:24:29 GMT+0530 (India Standard Time)GET/setupDb
+Thu Feb 04 2021 15:24:38 GMT+0530 (India Standard Time)GET/getAllBookings

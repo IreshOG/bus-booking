@@ -1,12 +1,12 @@
 const express = require("express");
 const routing = express.Router();
 const carBookingService = require("../services/users");
-const carBooking = require("../model/carbooking");
+const CarBooking = require("../model/carbooking");
 
 
 
 //Showing all details for the booking of car
-routing.get("/booking",async(req,res,next)=>{
+routing.get("/getAllBookings",async(req,res,next)=>{
     //let bid = parseInt(req.params.bookingId);
     try{
         let bookings= await carBookingService.getAllBookings();

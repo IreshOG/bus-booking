@@ -11,15 +11,13 @@ carBookingDb.generateId = async() =>{
 
 //Getting all bookings
 carBookingDb.getAllBookings = async () =>{
-    let model = await dbModel.getCustomerCollection();
-    let bookings = await model.find({}, { _id:0, bookings: 1 });
-    let model1 = await dbModel.getBookingCollection();
-    let booking = await model1.find({}, { _id:0 });
+    let model = await dbModel.getBookingCollection();
+    let booking = await model.find({}, { _id:0 });
     if(!booking || booking.length == 0) return null;
     else return booking;
 }
 
-//Check Passenger
+//Check Customer
 carBookingDb.checkCustomer = async (customerId) =>{
     let model = await dbModel.getCustomerCollection();
     let customer = await model.findOne({ customerId: customerId});
