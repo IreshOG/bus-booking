@@ -1,12 +1,12 @@
 const express = require("express");
 const routing = express.Router();
-const busBookingService = require("../services/users");
-const busBooking = require("../model/busbooking");
+const carBookingService = require("../services/users");
+const carBooking = require("../model/carbooking");
 
 //Showing all details for the booking of bus
 routing.get("/getAllBookings", async (req, res, next) => {
     try{
-        let bookings= await busBookingService.getAllBookings();
+        let bookings= await carBookingService.getAllBookings();
         res.json(bookings);
     }
     catch (error){

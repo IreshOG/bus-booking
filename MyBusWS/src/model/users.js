@@ -1,28 +1,28 @@
 const dbModel = require("../utilities/connection");
-const busBookingDb = {};
+const carBookingDb = {};
 
 // Generate Id
-busBookingDb.generateId = async() =>{
-    let model = await dbModel.getBusCollection();
+carBookingDb.generateId = async() =>{
+    let model = await dbModel.getCarCollection();
     let ids = await model.distinct("bookings.bookingId");
     let bookId = Math.max(...ids);
     return bookId + 1;
 }
 
 //Getting all bookings
-busBookingDb.getAllBookings = async () =>{
-    let model = await dbModel.getPassengerCollection();
-    let bookings = await model.find({}, { _id:0, bookings: 1 });
+carBookingDb.getAllBookings = async () =>{
+    let model = await dbModel.getBookingCollection();
+    let bookings = await model.find({}, { _id:0 });
     if(!bookings || bookings.length == 0) return null;
     else return bookings;
 }
 
 //Check Passenger
-busBookingDb.checkPassenger = async (passengerId) =>{
-    let model = await dbModel.getPassengerCollection();
-    let passenger = await model.findOne({ passengerId: passengerId});
-    if (passenger) { 
-        return passenger;
+carBookingDb.checkCustomer = async (customerId) =>{
+    let model = await dbModel.getCustomerCollection();
+    let customer = await model.findOne({ customerId: customerId});
+    if (customer) { 
+        return customer;
     }
     else {
         return null;
@@ -30,17 +30,17 @@ busBookingDb.checkPassenger = async (passengerId) =>{
 }
 
 //Check Availability
-busBookingDb.checkAvailability = async (busId) => {
-    let model = await dbModel.getBusCollection();
-    let bus = await model.findOne({ "bookings.bookingId": bookingId });
-    if (busAvailability) {
-        return busAvailability;
+carBookingDb.checkAvailability = async (carId) => {
+    let model = await dbModel.getCarCollection();
+    let carAvailability = await model.findOne({ carId: carId });
+    if (carAvailability) {
+        return carAvailability;
     }
     else {
         return null;
     }
 }
-
+/*
 //To update the customer wallet
 busBookingDb.updateWallet = async (passengerId, bookingCost)=>{
     let model = await dbModel.getPassengerCollection();
@@ -80,4 +80,5 @@ busBookingDb.bookBus = async (busBooking) => {
         throw error;
     }
 }
-module.exports = busBookingDb;
+*/
+module.exports = carBookingDb;

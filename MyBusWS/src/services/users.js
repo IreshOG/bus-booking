@@ -1,11 +1,11 @@
-const BusBooking = require("../model/busbooking");
+const CarBooking = require("../model/carbooking");
 const db = require("../model/users");
 const validator = require("../utilities/validator");
 
-let busBookingService = {}
+let carBookingService = {}
 
 //Getting All Bookings
-busBookingService.getAllBookings = async() =>{
+carBookingService.getAllBookings = async() =>{
     let bookings = await db.getAllBookings();
     if (bookings == null) {
         let error = new Error("No bookings found");
@@ -17,31 +17,19 @@ busBookingService.getAllBookings = async() =>{
     }
 }
 
-//Service for bus booking
-busBookingService.bookBus = async (busBooking) =>{
-    validator.validateBusId( busBooking.busId);
-    let passenger = await db.checkPassenger(busBooking.passengerId);
+//Service for car booking
+carBookingService.bookCar = async (carBooking) =>{
+    validator.validateCarId(carBooking.carId);
+    let passenger = await db.checkCustomer(carBooking.customerId);
     if (passenger) {
-        let bus = await db.checkAvailability( busBooking.busId);
-        if (bus) {
-            if(bus.status == "Cancelled") {
-                let error = new Error("Bus with Id " + bus.busId + " is cancelled.");
-                error.status=404;
-                throw error;
-            }
-            else if (bus.seatsAvailable == 0){
-                let error = new Error("Bus with Id " + bus.busId + " is full");
-                error.status = 404;
-                throw error;
-            }
-            else if (bus.seatsAvailable < busBooking.numberOfTickets ){
-                let error = new Error("Bus with Id" + bus.busId + " is almost full. Only " + bus.seatsAvailable + " seats are left.");
-                error.status = 404;
-                throw error;
-            }
+        let car = await db.checkAvailability( carBooking.carId);
+        if (car) {
+           promise = await db.bookCar(carBooking);
+           let bookingId = await promise;
+           return bookingId;
         }
         else {
-            let error = new Error("Bus not available");
+            let error = new Error("Car not available");
             error.status = 404;
             throw error;
         }
@@ -53,4 +41,4 @@ busBookingService.bookBus = async (busBooking) =>{
     }
 }
 
-module.exports = busBookingService;
+module.exports = carBookingService;

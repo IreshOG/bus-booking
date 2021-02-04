@@ -4,3 +4,20 @@ Wed Feb 03 2021 16:38:22 GMT+0530 (India Standard Time) - ReferenceError: bookin
 Wed Feb 03 2021 16:39:09 GMT+0530 (India Standard Time) - ReferenceError: bookings is not defined
     at routing.get (D:\bus-booking\bus-booking\MyBusWS\src\routes\routing.js:10:18)
     at process._tickCallback (internal/process/next_tick.js:68:7)
+Thu Feb 04 2021 12:46:03 GMT+0530 (India Standard Time) - ReferenceError: busBookingService is not defined
+    at routing.get (D:\bus-booking\bus-booking\MyBusWS\src\routes\routing.js:9:23)
+    at Layer.handle [as handle_request] (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\layer.js:95:5)
+    at D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:281:22
+    at Function.process_params (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:335:12)
+    at next (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:275:10)
+    at Function.handle (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:174:3)
+    at router (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:47:12)
+    at Layer.handle [as handle_request] (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:317:13)
+    at D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:335:12)
+    at next (D:\bus-booking\bus-booking\MyBusWS\node_modules\express\lib\router\index.js:275:10)
+    at requestLogger (D:\bus-booking\bus-booking\MyBusWS\src\utilities\requestLogger.js:8:5)
