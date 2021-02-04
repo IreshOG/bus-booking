@@ -43,7 +43,7 @@ const bookingDb = [
         bookingId: 1001,
         customerId:1010,
         carId:"L001",
-        dateOfBooking:21/11/2021,
+        dateOfBooking:Date(21/11/2021),
         cartype:"Luxury",
         price:30000
     },
@@ -51,7 +51,7 @@ const bookingDb = [
         bookingId: 1002,
         customerId:1035,
         carId:"M001",
-        dateOfBooking:21/03/2021,
+        dateOfBooking:Date(21/03/2021),
         cartype:"Mini",
         price:10000
     },

@@ -1,8 +1,8 @@
 const dbModel = require("../utilities/connection");
-const busBookingDb = {};
+const carBookingDb = {};
 
 // Generate Id
-busBookingDb.generateId = async() =>{
+carBookingDb.generateId = async() =>{
     let model = await dbModel.getBusCollection();
     let ids = await model.distinct("bookings.bookingId");
     let bookId = Math.max(...ids);
@@ -10,7 +10,7 @@ busBookingDb.generateId = async() =>{
 }
 
 //Getting all bookings
-busBookingDb.getAllBookings = async () =>{
+carBookingDb.getAllBookings = async () =>{
     let model = await dbModel.getPassengerCollection();
     let bookings = await model.find({}, { _id:0, bookings: 1 });
     if(!bookings || bookings.length == 0) return null;
@@ -18,7 +18,7 @@ busBookingDb.getAllBookings = async () =>{
 }
 
 //Check Passenger
-busBookingDb.checkPassenger = async (passengerId) =>{
+carBookingDb.checkPassenger = async (passengerId) =>{
     let model = await dbModel.getPassengerCollection();
     let passenger = await model.findOne({ passengerId: passengerId});
     if (passenger) { 
@@ -30,7 +30,7 @@ busBookingDb.checkPassenger = async (passengerId) =>{
 }
 
 //Check Availability
-busBookingDb.checkAvailability = async (busId) => {
+carBookingDb.checkAvailability = async (busId) => {
     let model = await dbModel.getBusCollection();
     let bus = await model.findOne({ "bookings.bookingId": bookingId });
     if (busAvailability) {
@@ -42,15 +42,15 @@ busBookingDb.checkAvailability = async (busId) => {
 }
 
 //To update the customer wallet
-busBookingDb.updateWallet = async (passengerId, bookingCost)=>{
-    let model = await dbModel.getPassengerCollection();
-    let data = await model.updateOne({ passengerId: passengerId }, { $inc: { walletBalance: -bookingCost }});
+carBookingDb.updateWallet = async (customerId, price)=>{
+    let model = await dbModel.getCustomerCollection();
+    let data = await model.updateOne({ customerId: customerId }, { $inc: { walletBalance: -price }});
     if ( data.nModified) return true;
     else return false;
 }
 
 //To book the bus
-busBookingDb.bookBus = async (busBooking) => {
+carBookingDb.bookBus = async (busBooking) => {
     let model = await dbModel.getPassengerCollection();
     let bookId = await busBooking.generateId();
     busBooking.bookingId = bookId;
@@ -80,4 +80,39 @@ busBookingDb.bookBus = async (busBooking) => {
         throw error;
     }
 }
-module.exports = busBookingDb;
+
+//get booking by id
+carBookingDb.getBookingById = async(bookingid)=>{
+    let book = await dbModel.getBookingCollection();
+    let data = await book.findOne({bookingId:bookingid});
+    if(data.length>0){
+        return data;
+    }else{
+        return null;
+    }
+}
+
+// update booking
+// carBookingDb.updateBooking = async(bookingId) =>{
+//     let booking = await dbModel.getBookingCollection();
+
+// }
+
+//deleting booking
+carBookingDb.deletebooking = async(bookingid)=>{
+    let book = await dbModel.getBookingCollection();
+    let data = await book.findOne({bookingId:bookingid});
+    if(data){
+        let del = data.deleteOne({bookingId:bookingid});
+        if(del.deletedCount){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+}
+
+
+
+module.exports = carBookingDb;

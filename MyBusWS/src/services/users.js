@@ -2,10 +2,10 @@ const BusBooking = require("../model/busbooking");
 const db = require("../model/users");
 const validator = require("../utilities/validator");
 
-let busBookingService = {}
+let carBookingService = {}
 
 //Getting All Bookings
-busBookingService.getAllBookings = async() =>{
+carBookingService.getAllBookings = async() =>{
     let bookings = await db.getAllBookings();
     if (bookings == null) {
         let error = new Error("No bookings found");
@@ -18,7 +18,7 @@ busBookingService.getAllBookings = async() =>{
 }
 
 //Service for bus booking
-busBookingService.bookBus = async (busBooking) =>{
+carBookingService.bookBus = async (busBooking) =>{
     validator.validateBusId( busBooking.busId);
     let passenger = await db.checkPassenger(busBooking.passengerId);
     if (passenger) {
@@ -53,4 +53,35 @@ busBookingService.bookBus = async (busBooking) =>{
     }
 }
 
-module.exports = busBookingService;
+
+carBookingService.getById = async(bookingId)=>{
+    let data = db.getBookingById(bookingId);
+    if(data){
+        return data;
+    }else{
+        let e = new Error("No bookings by Id:"+bookingId+"found");
+        e.status=404;
+        throw e;
+    }
+}
+
+carBookingService.deleteById = async(bookingId)=>{
+    let data = db.deletebooking(bookingId);
+    if(data){
+        return data;
+    }else{
+        let err = new Error("No booking found");
+        err.status = 500;
+        throw err;
+    }
+}
+
+
+
+
+
+
+
+
+
+module.exports = carBookingService;
