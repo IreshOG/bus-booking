@@ -2,45 +2,42 @@ const { Schema } = require("mongoose");
 const Mongoose = require("mongoose");
 Mongoose.Promise = global.Promise;
 Mongoose.set('useCreateIndex',true);
-const url = "mongodb://localhost:27017/BusBooking_DB";
+const url = "mongodb://localhost:27017/CarBooking_DB";
 
-//Schema for passenger
-const passengerSchema = Schema({
-    passengerId: Number,
-    passengerName: String,
-    walletBalance: Number
-},{ collection: "Passenger" });
+//Schema for customer
+const customerSchema = Schema({
+    customerId: Number,
+    customerName: String,
+    dateOfBooking: Date,
+    carType: String
+},{ collection: "Customer" });
 
-//Schema for Bus booking
-const busBookingSchema = Schema ({
-    passengerId: { type: Number, required: true },
-    passengerName: { type: String, required: true },
+//Schema for Car booking
+const bookingSchema = Schema ({
+    customerId: { type: Number, required: true },
+    carId: { type: String, required: true },
     bookingId: { type: Number, unique: true },
-    numberOfTickets: { type: Number, min: [1, "Minimum number of Tickets should be 1"], max: [5, "Maximum number of tickets booked should be 5"] },
-    bookingDate: { type: Date, default: new Date() },
-    bookingCost: { type: Number, min: [0, "Booking cost should not be negative"] }
+    dateOfBooking: { type: Date, default: new Date() },
+    price: { type: Number, required: true},
+    carType: String
 });
 
 //schema for bus
-const BusSchema = Schema({
-    busId:String,
-    busName:String,
+const carSchema = Schema({
+    carId:String,
+    carName:String,
     price:Number,
-    seatsAvailable:Number,
-    status:{type:String,enum:['Running', 'Cancelled']},
-    bookings:{
-        type:[busBookingSchema],default:[]
-    }
-},{collection:'Bus'})
+    carType:{ type: String , enum:['Mini', 'Sedan', 'Luxury']},
+   },{collection:'Car'})
 
 
 let collection = {};
 
 
-collection.getBusCollection = async()=>{
+collection.getCarCollection = async()=>{
     try{
         let dbConnection = await Mongoose.connect(url,{useNewUrlParser:true});
-        let model = await dbConnection.model('Bus',BusSchema);
+        let model = await dbConnection.model('Car',carSchema);
         return model;
     }catch(error){
         let err = new Error('Cannot connect to DB');
@@ -49,10 +46,10 @@ collection.getBusCollection = async()=>{
     }
 }
 
-collection.getPassengerCollection = async()=>{
+collection.getCustomerCollection = async()=>{
     try{
         let dbConnection = await Mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-        let model = await dbConnection.model('Passenger', passengerSchema);
+        let model = await dbConnection.model('Customer', customerSchema);
         return model;
     }catch (error){
         let err = new Error("Unable to connect to the database");

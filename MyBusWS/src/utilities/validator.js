@@ -1,10 +1,10 @@
 let Validator = {};
 
 //To validate bus Id
-Validator.validateBusId = function (busId) {
-    let pattern = new RegExp("^B-[1-9][0-9]{2}$");
-    if (busId.length != 5 && !(pattern.test(busId))) {
-        let error = new Error("Error in bus Id");
+Validator.validateCarId = function (carId) {
+    let pattern = new RegExp("^[MSL][0-9]{3}$");
+    if (carId.length != 5 && !(pattern.test(carId))) {
+        let error = new Error("Error in car Id");
         error.status = 406;
         throw error;
     }
