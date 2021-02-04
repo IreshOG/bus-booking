@@ -1,7 +1,7 @@
 const express = require("express");
 const routing = express.Router();
 const carBookingService = require("../services/users");
-const carBooking = require("../model/busbooking");
+const carBooking = require("../model/carbooking");
 
 
 
@@ -9,8 +9,8 @@ const carBooking = require("../model/busbooking");
 routing.get("/booking",async(req,res,next)=>{
     //let bid = parseInt(req.params.bookingId);
     try{
-        let d = await carBookingService.getAllBookings();
-        res.json(d);
+        let bookings= await carBookingService.getAllBookings();
+        res.json(bookings);
     }catch(err){
         next(err);
     }

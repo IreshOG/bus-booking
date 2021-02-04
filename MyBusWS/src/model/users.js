@@ -3,7 +3,7 @@ const carBookingDb = {};
 
 // Generate Id
 carBookingDb.generateId = async() =>{
-    let model = await dbModel.getBusCollection();
+    let model = await dbModel.getCarCollection();
     let ids = await model.distinct("bookings.bookingId");
     let bookId = Math.max(...ids);
     return bookId + 1;
@@ -11,18 +11,20 @@ carBookingDb.generateId = async() =>{
 
 //Getting all bookings
 carBookingDb.getAllBookings = async () =>{
-    let model = await dbModel.getPassengerCollection();
+    let model = await dbModel.getCustomerCollection();
     let bookings = await model.find({}, { _id:0, bookings: 1 });
-    if(!bookings || bookings.length == 0) return null;
-    else return bookings;
+    let model1 = await dbModel.getBookingCollection();
+    let booking = await model1.find({}, { _id:0 });
+    if(!booking || booking.length == 0) return null;
+    else return booking;
 }
 
 //Check Passenger
-carBookingDb.checkPassenger = async (passengerId) =>{
-    let model = await dbModel.getPassengerCollection();
-    let passenger = await model.findOne({ passengerId: passengerId});
-    if (passenger) { 
-        return passenger;
+carBookingDb.checkCustomer = async (customerId) =>{
+    let model = await dbModel.getCustomerCollection();
+    let customer = await model.findOne({ customerId: customerId});
+    if (customer) { 
+        return customer;
     }
     else {
         return null;
@@ -30,54 +32,14 @@ carBookingDb.checkPassenger = async (passengerId) =>{
 }
 
 //Check Availability
-carBookingDb.checkAvailability = async (busId) => {
-    let model = await dbModel.getBusCollection();
-    let bus = await model.findOne({ "bookings.bookingId": bookingId });
-    if (busAvailability) {
-        return busAvailability;
+carBookingDb.checkAvailability = async (carId) => {
+    let model = await dbModel.getCarCollection();
+    let carAvailability = await model.findOne({ carId: carId });
+    if (carAvailability) {
+        return carAvailability;
     }
     else {
         return null;
-    }
-}
-
-//To update the customer wallet
-carBookingDb.updateWallet = async (customerId, price)=>{
-    let model = await dbModel.getCustomerCollection();
-    let data = await model.updateOne({ customerId: customerId }, { $inc: { walletBalance: -price }});
-    if ( data.nModified) return true;
-    else return false;
-}
-
-//To book the bus
-carBookingDb.bookBus = async (busBooking) => {
-    let model = await dbModel.getPassengerCollection();
-    let bookId = await busBooking.generateId();
-    busBooking.bookingId = bookId;
-    let data = await model.updateOne({ busId: busBooking.busId }, { $push: { bookings: busBooking}});
-    if (data.nModified){
-        let seats = await model.updateOne({ busId: busBooking.busId }, { $inc: { seatsAvailable: -busBooking.numberOfTickets }});
-        if (seats.nModified){
-            let statusOfBooking = await busBookingDb.updateWallet( busBooking.passengerId, busBooking.bookingCost );
-            if (statusOfBooking) {
-                return busBooking.bookingId;
-            }
-            else {
-                let error = new Error("Wallet cannot be updated");
-                error.status = 400;
-                throw error;
-            }
-        }
-        else {
-            let error = new Error("Seats cannot be updated");
-            error.status = 400;
-            throw error;
-        }
-    }
-    else {
-        let error = new Error("booking failed");
-        error.status = 400;
-        throw error;
     }
 }
 
@@ -92,13 +54,6 @@ carBookingDb.getBookingById = async(bookingid)=>{
     }
 }
 
-// update booking
-// carBookingDb.updateBooking = async(bookingId) =>{
-//     let booking = await dbModel.getBookingCollection();
-
-// }
-
-//deleting booking
 carBookingDb.deletebooking = async(bookingid)=>{
     let book = await dbModel.getBookingCollection();
     let data = await book.findOne({bookingId:bookingid});
@@ -110,9 +65,5 @@ carBookingDb.deletebooking = async(bookingid)=>{
             return false;
         }
     }
-    
 }
-
-
-
-module.exports = carBookingDb;
+module.exports = carBookingDb
