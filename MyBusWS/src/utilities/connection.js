@@ -58,5 +58,19 @@ collection.getCustomerCollection = async()=>{
     }
 
 }
+collection.getBookingCollection = async()=>{
+    try{
+        let dbcon = await Mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+        let model = await dbcon.model('Booking',bookingSchema);
+        return model;
+    }catch(error){
+        let err = new Error("Unable to connect to DB");
+        err.status=500;
+        throw err; 
+    }
+}
+
+
+
 
 module.exports = collection;

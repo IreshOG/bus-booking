@@ -1,100 +1,80 @@
 const collection = require("../utilities/connection");
 
-const passengerDb = [{
-        passengerId: 1001,
-        passengerName: "Sam",
+const customerDb = [{
+        customerId: 1010,
+        customerName: "Sam",
         walletBalance: 2500,
+        dateOfBooking:21/11/2021
     },
     {
-        passengerId: 1035,
-        passengerName: "Amanda",
-        walletBalance: 5500
+        customerId: 1035,
+        customerName: "Amanda",
+        walletBalance: 5500,
+        dateOfBooking:21/03/2021
     },
     {
-        passengerId: 2001,
-        passengerName: "Tim",
-        walletBalance: 0
+        customerId: 2001,
+        customerName: "Tim",
+        walletBalance: 0,
+        dateOfBooking:02/06/2021
     },
     
 ];
 
-const busDb = [{
-        busId: "B-101",
-        busName: "Bharat",
-        price: 500,
-        seatsAvailable: 10,
-        status:"Running",
-        bookings: [{
-            passengerId: 1001,
-            passengerName:"Joshua",
-            bookingId: 3001,
-            numberOfTickets: 4,
-            bookingCost: 2000
-        },
-        {
-            passengerId: 2001,
-            passengerName:"Lopen",
-            bookingId: 3004,
-            numberOfTickets: 1,
-            bookingCost: 500
-        }
-    ]
+const carDb = [{
+        carId:"M001",
+        cartype:"Mini",
+        price:10000
 },
     {
-        busId: "B-102",
-        busName: "Volvo",
-        price: 800,
-        seatsAvailable: 20,
-        status:"Running",
-        bookings: [{
-                passengerId: 1001,
-                passengerName:"Reno",
-                bookingId: 3002,
-                numberOfTickets: 2,
-                bookingCost: 1600
-            },
-            {
-                passengerId: 1035,
-                passengerName:"Polard",
-                bookingId: 3003,
-                numberOfTickets: 4,
-                bookingCost: 3200
-            }
-        ]
+        carId:"S001",
+        cartype:"Sedan",
+        price:20000
     },
     {
-        busId: "B-103",
-        busName: "Safar",
-        price: 650,
-        seatsAvailable: 10,
-        status:"Cancelled",
-        bookings: [{
-                passengerId: 2001,
-                passengerName:"McCullum",
-                bookingId: 3010,
-                numberOfTickets: 1,
-                bookingCost: 650
-            },
-            {
-                passengerId: 1035,
-                passengerName:"Stewart",
-                bookingId: 3006,
-                numberOfTickets: 3,
-                bookingCost: 1950
-            }
-        ]
+        carId:"L001",
+        cartype:"Luxury",
+        price:30000
     }
+];
 
-]
+const bookingDb = [
+    {
+        bookingId: 1001,
+        customerId:1010,
+        carId:"L001",
+        dateOfBooking:21/11/2021,
+        cartype:"Luxury",
+        price:30000
+    },
+    {
+        bookingId: 1002,
+        customerId:1035,
+        carId:"M001",
+        dateOfBooking:21/03/2021,
+        cartype:"Mini",
+        price:10000
+    },
+  
+];
+
+
 
 exports.setupDb = async() => {
-    let passenger = await collection.getPassengerCollection();
-    await passenger.deleteMany();
-    let passengerData = await passenger.insertMany(passengerDb);
-    let busBooking = await collection.getBusCollection();
-    await busBooking.deleteMany();
-    let busBookingData = await busBooking.insertMany(busDb)
-    if(passengerData && busBookingData) {
+    let customer = await collection.getCustomerCollection();
+    await customer.deleteMany();
+    let customerData = await customer.insertMany(customerDb);
+    
+    let carBooking = await collection.getCarCollection();
+    await carBooking.deleteMany();
+    let carBookingData = await carBooking.insertMany(carDb)
+    
+    let booking = await collection.getBookingCollection();
+    await booking.deleteMany();
+    let bookingdata = await booking.insertMany(bookingDb); 
+
+
+    if(customerData && carBookingData && bookingdata) {
         return "Insertion Successful"
     }
     else{
