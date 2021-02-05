@@ -47,7 +47,8 @@ carBookingDb.bookCar = async (carBooking) => {
     let bookId = await carBookingDb.generateId();
     carBooking.bookingId = bookId;
     console.log(carBooking)
-    let data = await model.updateOne({ carId: carBooking.carId }, { $push: { carBooking}});
+    console.log(model)
+    let data = await model.updateOne({ carId: carBooking.carId }, { $set: { carBooking}},{upsert: true});
     console.log(data);
     if (data.nModified){
             return carBooking.bookingId;
