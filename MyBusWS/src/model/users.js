@@ -3,8 +3,8 @@ const carBookingDb = {};
 
 // Generate Id
 carBookingDb.generateId = async() =>{
-    let model = await dbModel.getCarCollection();
-    let ids = await model.distinct("bookings.bookingId");
+    let model = await dbModel.getBookingCollection();
+    let ids = await model.distinct("bookingId");
     let bookId = Math.max(...ids);
     return bookId + 1;
 }
@@ -44,9 +44,11 @@ carBookingDb.checkAvailability = async (carId) => {
 //To book the car
 carBookingDb.bookCar = async (carBooking) => {
     let model = await dbModel.getBookingCollection();
-    let bookId = await carBooking.generateId();
+    let bookId = await carBookingDb.generateId();
     carBooking.bookingId = bookId;
+    console.log(carBooking)
     let data = await model.updateOne({ carId: carBooking.carId }, { $push: { carBooking}});
+    console.log(data);
     if (data.nModified){
             return carBooking.bookingId;
             }
