@@ -20,13 +20,16 @@ carBookingService.getAllBookings = async() =>{
 //Service for car booking
 carBookingService.bookCar = async (carBooking) =>{
     validator.validateCarId(carBooking.carId);
+    let d = carBooking.dateOfBooking;
+    
     let passenger = await db.checkCustomer(carBooking.customerId);
     if (passenger) {
-        let car = await db.checkAvailability( carBooking.carId);
+        console.log("received date in service"+carBooking.dateOfBooking);
+        let car = await db.checkAvailability( carBooking.carId,carBooking.dateOfBooking);
         if (car) {
            promise = await db.bookCar(carBooking);
-           let bookingId = await promise;
-           return bookingId;
+           //let bookingId = await promise;
+           return promise;
         }
         else {
             let error = new Error("Car not available");

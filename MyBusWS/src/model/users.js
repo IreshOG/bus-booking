@@ -1,4 +1,5 @@
 const dbModel = require("../utilities/connection");
+const CarBooking = require("./carbooking");
 const carBookingDb = {};
 
 // Generate Id
@@ -30,10 +31,32 @@ carBookingDb.checkCustomer = async (customerId) =>{
 }
 
 //Check Availability
-carBookingDb.checkAvailability = async (carId) => {
-    let model = await dbModel.getCarCollection();
-    let carAvailability = await model.findOne({ carId: carId });
-    if (carAvailability) {
+carBookingDb.checkAvailability = async (carId,dateOfBooking) => {
+    console.log("Received date "+dateOfBooking)
+    let model = await dbModel.getBookingCollection();
+    let carAvailability = await model.find({
+            carId:carId
+    });
+    let f=0;
+    let y = new Date(dateOfBooking).getFullYear();
+    let m = new Date(dateOfBooking).getMonth();
+    let d1 = new Date(dateOfBooking).getDate();
+
+    //console.log("Given date : "+typeof(d));
+    for(d of carAvailability){
+        // console.log(d.dateOfBooking);
+        let year = new Date(d.dateOfBooking).getFullYear();
+        let month = new Date(d.dateOfBooking).getMonth();
+        let date = new Date(d.dateOfBooking).getDate();
+        //console.log(" Date : "+d);
+        if(y==year && m==month && d1==date){
+            console.log("H");
+            f=1;
+            break;
+        }
+    }
+    console.log("f = "+f );
+    if (f==0) {
         return carAvailability;
     }
     else {
@@ -46,18 +69,24 @@ carBookingDb.bookCar = async (carBooking) => {
     let model = await dbModel.getBookingCollection();
     let bookId = await carBookingDb.generateId();
     carBooking.bookingId = bookId;
-    console.log(carBooking)
-    console.log(model)
-    let data = await model.updateOne({ carId: carBooking.carId }, { $set: { carBooking}},{upsert: true});
+    let c = model.countDocuments();
+    console.log(c);
+    // console.log("Called");
+    // console.log(bookId);
+    // console.log(carBooking)
+    // console.log(model)
+    // let id = carBooking.carId;
+    // console.log(id);
+    let data = await model.insertMany({bookingId: carBooking.bookingId, customerId:carBooking.customerId,
+    carId:carBooking.carId,dateOfBooking:carBooking.dateOfBooking ,cartype:carBooking.cartype,price:carBooking.price});
     console.log(data);
-    if (data.nModified){
+    if (data){
             return carBooking.bookingId;
-            }
-    else {
-        let error = new Error("booking failed");
-        error.status = 400;
-        throw error;
+        }
+    else{
+        return null;
     }
+    
 }
 
 //get booking by id
