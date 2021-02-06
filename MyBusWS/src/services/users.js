@@ -20,8 +20,6 @@ carBookingService.getAllBookings = async() =>{
 //Service for car booking
 carBookingService.bookCar = async (carBooking) =>{
     validator.validateCarId(carBooking.carId);
-    let d = carBooking.dateOfBooking;
-    
     let passenger = await db.checkCustomer(carBooking.customerId);
     if (passenger) {
         console.log("received date in service"+carBooking.dateOfBooking);

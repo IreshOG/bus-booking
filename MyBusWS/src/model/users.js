@@ -71,12 +71,6 @@ carBookingDb.bookCar = async (carBooking) => {
     carBooking.bookingId = bookId;
     let c = model.countDocuments();
     console.log(c);
-    // console.log("Called");
-    // console.log(bookId);
-    // console.log(carBooking)
-    // console.log(model)
-    // let id = carBooking.carId;
-    // console.log(id);
     let data = await model.insertMany({bookingId: carBooking.bookingId, customerId:carBooking.customerId,
     carId:carBooking.carId,dateOfBooking:carBooking.dateOfBooking ,cartype:carBooking.cartype,price:carBooking.price});
     console.log(data);
