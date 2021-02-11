@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "MyCarUI"
+    }
+  },
+  "defaultProject": "MyCarUI",
+  "cli": {
+    "analytics": false
+  }
 }

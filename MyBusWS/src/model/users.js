@@ -10,6 +10,18 @@ carBookingDb.generateId = async() =>{
     return bookId + 1;
 }
 
+//get all carDB
+carBookingDb.getAllCar = async() =>{
+    let model = await dbModel.getCarCollection();
+    let data = await model.find({});
+    if(data.length>0){
+        return data;
+    }else{
+        return null;
+    }
+}
+
+
 //Getting all bookings
 carBookingDb.getAllBookings = async () =>{
     let model = await dbModel.getBookingCollection();

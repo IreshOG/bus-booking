@@ -3,7 +3,15 @@ const routing = express.Router();
 const carBookingService = require("../services/users");
 const CarBooking = require("../model/carbooking");
 
-
+//showmy car database
+routing.get("/show",async(req,res,next)=>{
+    try{
+        let data = await carBookingService.getAllCar();
+        res.json(data);
+    }catch{
+        next(err);
+    }
+})
 
 //Showing all details for the booking of car
 routing.get("/getAllBookings",async(req,res,next)=>{

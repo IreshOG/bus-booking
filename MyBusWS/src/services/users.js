@@ -3,6 +3,17 @@ const db = require("../model/users");
 const validator = require("../utilities/validator");
 
 let carBookingService = {}
+//getting carDB
+carBookingService.getAllCar = async()=>{
+    let data = await db.getAllCar();
+    if(data){
+        return data;
+    }else{
+        let error = new Error("No Cars found in database");
+        error.status = 404;
+        throw error;
+    }
+}
 
 //Getting All Bookings
 carBookingService.getAllBookings = async() =>{
