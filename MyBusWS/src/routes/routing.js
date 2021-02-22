@@ -26,6 +26,7 @@ routing.get("/getAllBookings",async(req,res,next)=>{
 
 // Inserting car booking
 routing.post("/bookCar", async (req,res,next)=>{
+    console.log(req.body);
     const carBooking = new CarBooking(req.body);
     try{
         let bookingId = await carBookingService.bookCar(carBooking);

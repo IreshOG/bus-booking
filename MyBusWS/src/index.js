@@ -1,13 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const create = require("./model/dbsetup");
 const router = require("./routes/routing");
 const bodyParser = require('body-parser');
 const myRequestLogger = require("./utilities/requestLogger");
 const myErrorLogger = require("./utilities/errorLogger");
-
+app.use(cors());
 app.use(bodyParser.json());
-
 app.use(myRequestLogger);
 app.use("/",router);
 app.use(myErrorLogger);
